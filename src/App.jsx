@@ -8,6 +8,7 @@ import JobPage from './pages/job';
 import PostJob from './pages/post-job';
 import SavedJobs from './pages/save-job';
 import MyJobs from './pages/my-jobs';
+import { ThemeProvider } from './components/ui/theme-provide';
 
 function App() {
 
@@ -48,7 +49,11 @@ function App() {
       },
     ]);
     
-    return <RouterProvider router={router}/>;
+    return <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    
+    <RouterProvider router={router}/>
+  </ThemeProvider>
+    
 }
 
 export default App

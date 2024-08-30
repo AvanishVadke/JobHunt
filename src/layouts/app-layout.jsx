@@ -9,7 +9,7 @@ const AppLayout = () => {
             <Header />
             <Outlet />
         </main>
-        <div className="p-10 text-center bg-gray-800 ">Work in progress ;D</div>
+        <div className="p-10 text-center bg-gray-800 ">Job hunt</div>
         
     </div>
   )

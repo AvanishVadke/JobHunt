@@ -46,7 +46,7 @@ function App() {
             </ProtectedRoute>
           },
           {
-            path: '/saved-jobs',
+            path: '/saved-jobs', //saved -> save gives err
             element:<ProtectedRoute>
               <SavedJobs />
             </ProtectedRoute>

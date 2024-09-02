@@ -16,7 +16,7 @@ const LandingPage = () => {
         sm:text-6xl lg:text-8xl tracking-tighter py-4">
           Find Your Dream Job{" "} 
           <span className="flex items-center gap-2 sm:gap-6">
-            and get{" "} 
+            with{" "} 
             <img 
               src="/logo.png" 
               alt="JobHunt Logo" 

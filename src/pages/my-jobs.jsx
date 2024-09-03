@@ -1,3 +1,4 @@
+
 import CreatedApplications from "@/components/created-applications";
 import CreatedJobs from "@/components/created-jobs";
 import { useUser } from "@clerk/clerk-react";

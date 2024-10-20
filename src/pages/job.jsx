@@ -3,7 +3,7 @@ import { BarLoader } from "react-spinners";
 import MDEditor from "@uiw/react-md-editor";
 import { useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
-import { Briefcase, DoorClosed, DoorOpen, MapPinIcon } from "lucide-react";
+import { Briefcase, DoorClosed, DoorOpen, MapPinIcon, DownloadIcon } from "lucide-react";
 
 import {
   Select,
@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button"; // Importing the Button component
 import { ApplyJobDrawer } from "@/components/apply-job";
 import ApplicationCard from "@/components/application-card";
 
@@ -46,6 +47,15 @@ const JobPage = () => {
     fnHiringStatus(isOpen).then(() => fnJob());
   };
 
+  const downloadResumeTemplate = () => {
+    const link = document.createElement("a");
+    link.href = "/src/data/resume_template.docx"; // Path to the resume template file
+    link.download = "resume_template.docx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (!isLoaded || loadingJob) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
@@ -59,7 +69,7 @@ const JobPage = () => {
         <img src={job?.company?.logo_url} className="h-12" alt={job?.title} />
       </div>
 
-      <div className="flex justify-between ">
+      <div className="flex justify-between items-center">
         <div className="flex gap-2">
           <MapPinIcon /> {job?.location}
         </div>
@@ -77,6 +87,10 @@ const JobPage = () => {
             </>
           )}
         </div>
+        {/* Button to download resume template */}
+        <Button variant="ghost" onClick={downloadResumeTemplate} className="flex items-center gap-2">
+          <DownloadIcon className="mr-2" /> Resume Template
+        </Button>
       </div>
 
       {job?.recruiter_id === user?.id && (
@@ -125,9 +139,8 @@ const JobPage = () => {
             console.log("Current User ID:", user?.id);
 
             return (
-              
               <ApplicationCard key={application.id} application={application} />
-            ); 
+            );
           })}
         </div>
       )}

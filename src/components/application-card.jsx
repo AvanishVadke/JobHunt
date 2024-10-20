@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Boxes, BriefcaseBusiness, Download, School } from "lucide-react";
+import { Boxes, BriefcaseBusiness, Download, School, DoorOpen } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -26,6 +26,12 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
     link.click();
   };
 
+  const handleParseResume = () => {
+    // Directly navigate to the resume parser site
+    const parserUrl = "https://bhavna1977.pythonanywhere.com"; // The resume parser site URL
+    window.open(parserUrl, "_blank");
+  };
+
   const { loading: loadingHiringStatus, fn: fnHiringStatus } = useFetch(
     updateApplicationStatus,
     {
@@ -45,11 +51,19 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
           {isCandidate
             ? `${application?.job?.title} at ${application?.job?.company?.name}`
             : application?.name}
-          <Download
-            size={18}
-            className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
-            onClick={handleDownload}
-          />
+          <div className="flex items-center gap-2">
+            <Download
+              size={18}
+              className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
+              onClick={handleDownload}
+            />
+            <button
+              onClick={handleParseResume}
+              className="bg-blue-500 hover:bg-blue-700 text-white rounded-full h-8 w-8 p-1.5 flex items-center justify-center cursor-pointer"
+            >
+              <DoorOpen size={18} />
+            </button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 flex-1">

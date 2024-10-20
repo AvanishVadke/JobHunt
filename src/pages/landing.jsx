@@ -68,7 +68,6 @@ const LandingPage = () => {
         <Card>
           <CardHeader>
             <CardTitle><b>For Job Seekers</b></CardTitle>
-            <CardDescription>Card Description</CardDescription>
           </CardHeader>
           <CardContent>
             Search and apply for jobs, track applications, and more.
@@ -78,7 +77,6 @@ const LandingPage = () => {
         <Card>
           <CardHeader>
             <CardTitle><b>For employers</b></CardTitle>
-            <CardDescription>Card Description</CardDescription>
           </CardHeader>
           <CardContent>
             Post job manage applications, and find the best candidates.

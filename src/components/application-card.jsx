@@ -27,8 +27,7 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
   };
 
   const handleParseResume = () => {
-    // Directly navigate to the resume parser site
-    const parserUrl = "https://bhavna1977.pythonanywhere.com"; // The resume parser site URL
+    const parserUrl = "https://bhavna1977.pythonanywhere.com";
     window.open(parserUrl, "_blank");
   };
 
@@ -57,12 +56,14 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
               className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
               onClick={handleDownload}
             />
-            <button
-              onClick={handleParseResume}
-              className="bg-blue-500 hover:bg-blue-700 text-white rounded-full h-8 w-8 p-1.5 flex items-center justify-center cursor-pointer"
-            >
-              <DoorOpen size={18} />
-            </button>
+            {!isCandidate && (
+              <button
+                onClick={handleParseResume}
+                className="bg-blue-500 hover:bg-blue-700 text-white rounded-full h-8 w-8 p-1.5 flex items-center justify-center cursor-pointer"
+              >
+                <DoorOpen size={18} />
+              </button>
+            )}
           </div>
         </CardTitle>
       </CardHeader>

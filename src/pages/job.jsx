@@ -12,12 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button"; // Importing the Button component
+import { Button } from "@/components/ui/button";
 import { ApplyJobDrawer } from "@/components/apply-job";
 import ApplicationCard from "@/components/application-card";
 
 import useFetch from "@/hooks/use-fetch";
 import { getSingleJob, updateHiringStatus } from "@/api/apiJobs";
+import supabaseClient from "@/utils/supabase";
 
 const JobPage = () => {
   const { id } = useParams();
@@ -47,13 +48,34 @@ const JobPage = () => {
     fnHiringStatus(isOpen).then(() => fnJob());
   };
 
-  const downloadResumeTemplate = () => {
-    const link = document.createElement("a");
-    link.href = "/src/data/resume_template.docx"; // Path to the resume template file
-    link.download = "resume_template.docx";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const downloadResumeTemplate = async () => {
+    try {
+      const supabase = await supabaseClient(user.publicMetadata.supabase_token);
+
+      const { data, error } = await supabase
+        .storage
+        .from('template')
+        .download('resume_template.docx');
+
+      if (error) {
+        throw error;
+      }
+
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'resume_template.docx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading resume template:', error);
+      // Handle the error (e.g., show a notification to the user)
+    }
   };
 
   if (!isLoaded || loadingJob) {
@@ -87,7 +109,6 @@ const JobPage = () => {
             </>
           )}
         </div>
-        {/* Button to download resume template */}
         <Button variant="ghost" onClick={downloadResumeTemplate} className="flex items-center gap-2">
           <DownloadIcon className="mr-2" /> Resume Template
         </Button>
@@ -119,7 +140,7 @@ const JobPage = () => {
       </h2>
       <MDEditor.Markdown
         source={job?.requirements}
-        className="bg-transparent sm:text-lg" // add global ul styles - tutorial
+        className="bg-transparent sm:text-lg"
       />
       {job?.recruiter_id !== user?.id && (
         <ApplyJobDrawer
@@ -133,15 +154,9 @@ const JobPage = () => {
       {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
         <div className="flex flex-col gap-2">
           <h2 className="font-bold mb-4 text-xl ml-1">Applications</h2>
-          {job?.applications.map((application) => {
-            console.log("Applications data:", job?.applications);
-            console.log("Job Recruiter ID:", job?.recruiter_id);
-            console.log("Current User ID:", user?.id);
-
-            return (
-              <ApplicationCard key={application.id} application={application} />
-            );
-          })}
+          {job?.applications.map((application) => (
+            <ApplicationCard key={application.id} application={application} />
+          ))}
         </div>
       )}
     </div>
